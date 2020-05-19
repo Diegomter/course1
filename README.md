@@ -1,4 +1,4 @@
-# course1
+# course1 final exam
 Course 1 Final assessment of Intro to Embedded_Sys_Software&amp;Development_Environments
 
 Description:
