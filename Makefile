@@ -28,7 +28,7 @@
 #------------------------------------------------------------------------------
 include sources.mk
 # Platform Overrides
-PLATFORM = HOST
+PLATFORM = COURSE1
 # General flags for both platforms
 GEN_FLAGS = \
 	    -Wall \
@@ -36,7 +36,7 @@ GEN_FLAGS = \
 	    -g \
 	    -O0 \
 	    -std=c99
-TARGET = c1m2
+TARGET = c1FA
 ifeq ($(PLATFORM), MSP432)
 	# Architectures Specific Flags
 	LINKER_FILE = -T msp432p401r.lds 
@@ -65,7 +65,7 @@ else
 	# Complier Flags and Defines
 	CC = gcc
 	CFLAGS = $(GEN_FLAGS)
-	CPPFLAGS = -DHOST $(INCLUDES)
+	CPPFLAGS = -DCOURSE1 $(INCLUDES)
 	LDFLAGS = -Wl,-Map=$(TARGET).map
 	SIZE = size
 endif
