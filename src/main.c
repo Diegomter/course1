@@ -18,13 +18,13 @@
  * @date May 23 2020
  *
  */
- #include <stdio.h>
+ //#include <stdio.h>
 #include "course1.h"
 
-int main()
+int main(void)
 {
 	#ifdef COURSE1
   course1();
 	#endif
-
+return 0;
 }

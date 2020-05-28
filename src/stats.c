@@ -67,6 +67,8 @@ void main()
 
 unsigned char print_array(unsigned char* a, unsigned char b )
 {
+  #ifdef VERBOSE
+
 unsigned char i;
 printf("The array is:\n");
 	for (i = 0; i < b; ++i)
@@ -74,6 +76,8 @@ printf("The array is:\n");
 	printf("%hhu, ", a[i]);
 	}
 	printf("\n");
+  
+  #endif
 }
 /* Add other Implementation File Code Here */
 

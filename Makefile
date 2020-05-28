@@ -55,6 +55,9 @@ ifeq ($(PLATFORM), MSP432)
 	# Architecture specific source codes
 	SOURCE = \
 		 main.c \
+		 course1.c\
+               	 data.c\
+		 stats.c\
 		 memory.c \
 		 interrupts_msp432p401r_gcc.c \
 		 startup_msp432p401r_gcc.c \

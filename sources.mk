@@ -10,8 +10,11 @@
 #*****************************************************************************
 
 # Add your Source files to this variable
-SRCS = main.c \
-	  memory.c \
+SRCS = src/main.c \
+	src/stats.c \
+	course1.c\
+	memory.c \
+	data.c\
 
 # Add your include paths to this variable
 INCLUDES = -I ../include/common \
