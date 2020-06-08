@@ -1,55 +1,73 @@
 /**
- * @file data.c
- * @brief Performs simple data manipulation
+ * @file data.h
+ * @brief embedded course 1 final assesment source code
+ *
+ *  
+ * See data.h for function documentation
  *
  * @author Diego Gomez Canales
- * @date April 22, 2019
+ * @date Jun 2 2020
+ *
  */
-
 #include "data.h"
-#include "memory.h"
 
-uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base){
-	int length = 0;
-	int digit;
-	int is_neg = -1;
-	int i;
-	
-	if(data = 0){
-		*ptr = 48;
-		return length;
-	}
-	else if(data < 0){
-		is_neg = 1;
-		data *= -1;
-	}
-
-	while(data != 0){
-		digit = num % base;
-		num /= base;
-
-		if(digit > 9){
-			*(ptr + length) = 55 + digit;
-		}
-		else{
-			*(ptr + length) = 48 + digit;
-		}
-
-		length++;
-	}
-
-	/* Add Null terminator */
-	*(ptr + length) = '\0'; 
-
-	if(is_neg){
-		my_memmove(ptr, ptr + 1, length);
-		*ptr = 45;
-		length++;
-	}
-
-	return length;
+uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
+    uint32_t tempData = data;
+    uint8_t stringsize = 0;
+    uint8_t negative = 0;
+    if (data < 0) {
+        data = data * -1;
+        negative = 1;
+        tempData = data;
+    }
+    while (tempData != 0) {
+        tempData = tempData / base;
+        stringsize++;
+    }
+    uint8_t length = stringsize;
+    ptr = ptr + sizeof(uint8_t) * stringsize + negative;
+    *ptr = '\0';
+    while (length > 0) {
+        if (data != 0) {
+            ptr = ptr - sizeof(uint8_t);
+        }
+        (data % base) >= 10 ? (*ptr = (data % base) + 'a') : (*ptr = (data % base) + '0');
+        data = data / base;
+        length = length -1;
+    }
+    if (negative == 1) {
+        ptr = ptr - 1;
+        *ptr = '-';
+    }
+    return stringsize + negative + 1;
 }
 
-uint32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base){
-	
+int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base) {
+    uint8_t negative = 0;
+    
+    int32_t number = 0;
+    if (*ptr == '-') {
+        ptr = ptr + sizeof(uint8_t);
+        negative = 1;
+        digits--;
+    }
+    for (uint8_t i = digits - 1; i != 0; i--) {
+        uint8_t n = 0;
+        uint32_t b = 1;
+        if (*ptr >= 'a') {
+            n = *ptr - 'a';
+        } else {
+            n = *ptr - '0';
+        }
+        for (uint8_t j = i - 1; j != 0; j--) {
+            b = b*base;
+        }
+        number = (n * b) + number;
+        digits--;
+        ptr = ptr + sizeof(uint8_t);
+    }
+    if (negative == 1) {
+        number = number * -1;
+    }
+    return number;
 }

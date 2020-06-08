@@ -10,8 +10,8 @@
 #*****************************************************************************
 
 # Add your Source files to this variable
-SRCS = src/main.c \
-	src/stats.c \
+SRCS = main.c \
+	stats.c \
 	course1.c\
 	memory.c \
 	data.c\

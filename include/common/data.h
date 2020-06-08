@@ -1,30 +1,38 @@
 /**
  * @file data.h
- * @brief Header file for data.c. Performs simple data manipulation
- * 
+ * @brief embedded course 1 final assesment source code
+ *
+ *  
+ * See data.h for function documentation
+ *
  * @author Diego Gomez Canales
- * @date May 28, 2020
- */    
+ * @date Jun 1 2020
+ *
+ */
+
 
 #ifndef __DATA_H__
 #define __DATA_H__
+#include <stdint.h>
+#include "platform.h"
+#include "memory.h"
 
-#define MAX_STR_SIZE 2147483647 // 2^31
 
 /**
- * @brief Convert std int into ASCII string
- *
- * String is NULL terminated.
- *
- * @param data Data to be converted
- * @param ptr Pointer to converted string
- * @param base Base 2-16 supported
- *
- * @return Length of converted data including NULL terminator
+ * convert data from a standard integer type into an ASCII string.
+ * @param data
+ * @param ptr
+ * @param base
+ * @return 
  */
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base);
-
+/**
+ * convert data back from an ASCII represented string into an integer type.
+ * @param ptr
+ * @param digits
+ * @param base
+ * @return 
+ */
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base);
 
-
-#endif
+#endif /* __DATA_H__ */

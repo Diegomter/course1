@@ -9,176 +9,198 @@
  *
  *****************************************************************************/
 /**
- * @file <Add File Name> 
- * @brief <Add Brief Description Here >
+ * @file stats.s
+ * @brief Assignment 1 source code
  *
- * <Add Extended Description Here>
+ * Main function and implementation of other functions live here. 
+ * See stats.h for function documentation
  *
- * @author <Diego Gomez Canales>
- * @date <Add date >
+ * @author Diego Gomez Canales
+ * @date Jun 2 2020
  *
  */
 
 
 
 #include <stdio.h>
-
 #include "stats.h"
 
 /* Size of the Data Set */
 #define SIZE (40)
+#define UCHAR_MAX (255)
 
-	unsigned char print_array(unsigned char* , unsigned char);
-	
-	unsigned int find_mean(unsigned char* , unsigned char);
-  	unsigned char find_maximum(unsigned char* , unsigned char);
-  	unsigned char find_minimum(unsigned char* , unsigned char);
-  	float find_median(unsigned char* , unsigned char);
-  	float print_statistics(unsigned char* , unsigned char);
-  	unsigned char sort_array(unsigned char* , unsigned char);
-  	
-void main() 
-{
+bool isArraySorted = FALSE;
 
-  unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
-                              114, 88,   45,  76, 123,  87,  25,  23,
-                              200, 122, 150, 90,   92,  87, 177, 244,
-                              201,   6,  12,  60,   8,   2,   5,  67,
-                                7,  87, 250, 230,  99,   3, 100,  90};
+//void main() {
+//
+//  unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
+//                              114, 88,   45,  76, 123,  87,  25,  23,
+//                              200, 122, 150, 90,   92,  87, 177, 244,
+//                              201,   6,  12,  60,   8,   2,   5,  67,
+//                                7,  87, 250, 230,  99,   3, 100,  90};
+//
+//  /* Other Variable Declarations Go Here */
+//  /* Statistics and Printing Functions Go Here */
+//  print_statistics(test, SIZE);
+//
+//}
 
-  /* Other Variable Declarations Go Here */
-  unsigned char n;
-
-   /* Statistics and Printing Functions Go Here */
-
-  printf("How many elements of the array do you want to work?:\n");
-  scanf ("%hhu", &n);
-  print_array(test, n);
-  
-  print_statistics(test , n);
-
-  sort_array(test, n);
-  	
-  print_array(test, n);
-  
-  
-}
- 
-
-unsigned char print_array(unsigned char* a, unsigned char b )
-{
-  #ifdef VERBOSE
-
-unsigned char i;
-printf("The array is:\n");
-	for (i = 0; i < b; ++i)
-	{
-	printf("%hhu, ", a[i]);
-	}
-	printf("\n");
-  
-  #endif
-}
 /* Add other Implementation File Code Here */
-
-unsigned int find_mean(unsigned char* a, unsigned char b)
-{
-unsigned char i;
-unsigned int m = 0;
-unsigned int M;
- for (i = 0; i < b; ++i)
-	{
-		m = m + a[i];
-	}
-	return (M = m/b);
-	
-}
-
-unsigned char find_maximum(unsigned char* a, unsigned char b)
-{
-
-unsigned char i;
-unsigned char mx = a[0];
-
-	for (i = 0; i < b; ++i)
-	{
-		if (a[i]> mx)
-			{
-			mx = a[i];
-			}
-		
-	}
-	return mx;
-	
-}
-
-unsigned char find_minimum(unsigned char* a, unsigned char b)
-{
-	unsigned char i;
-	unsigned char mn = a[0];
-
-		for (i = 0; i < b; ++i)
-		{
-			if(a[i]<mn)
-			{
-				mn= a[i];
-			}
-		}
-		return mn;
-		
-
-}
-float find_median(unsigned char* a, unsigned char b) 
-{
-    int temp;
-    int i, j;
+/*See stats.h for doumentation*/
+unsigned char print_statistics(unsigned char * arrPtr, int length){
+  unsigned char sortResult;
+  unsigned char arrayMaxValue;
+  unsigned char arrayMinValue;
+  unsigned char arrayMeanValue;
+  unsigned char arrayMedianValue;
+  
+  PRINTF("Starting array analysis...\n");
+  print_array(arrPtr, length);
+  PRINTF("Array size:\t\t%i\n", length);
+  
+  if(isArraySorted == FALSE){
+    PRINTF("Array is not sorted... Sorting using bubble sort...\n");
+    sortResult = sort_array(arrPtr, length);
+  }
+  
+  if(sortResult != CODE_SUCCESS){
+    PRINTF("Oopps... array_sort returned with error\n");
+    return 1;
+  } 
+  PRINTF("Well done!\nSorted array:");
+  print_array(arrPtr, length);
+  
+  PRINTF("Computing array max value...\n");
+  arrayMaxValue = find_maximum(arrPtr, length);
+  PRINTF("Array max value:\t%i\n", arrayMaxValue);
+  
+  PRINTF("Computing array min value...\n");
+  arrayMinValue = find_minimum(arrPtr, length);
+  PRINTF("Array min value:\t%i\n", arrayMinValue);
     
-    for(i=0; i<b-1; i++) 
-    	{
-        for(j=i+1; j<b; j++) 
-        	{
-            if(a[j] < a[i]) 
-            {
-              
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
-            }
-        }
-    }
-
-    if(b%2==0) 
-    {
-        
-        return((a[b/2] + a[b/2 - 1]) / 2.0);
-    } else {
-        
-        return a[b/2];
-    }
+  PRINTF("Computing array mean value...\n");
+  arrayMeanValue = find_mean(arrPtr, length);
+  PRINTF("Array mean value:\t%i\n", arrayMeanValue);
+      
+  PRINTF("Computing array median value...\n");
+  arrayMedianValue = find_median(arrPtr, length);
+  PRINTF("Array median value:\t%i\n", arrayMedianValue);
+  return 0;	
 }
-unsigned char sort_array(unsigned char* a, unsigned char b)
-{
-	int i,j,temp;
-	for(i=0; i<b-1; i++) 
-    	{
-        for(j=i+1; j<b; j++) 
-        	{
-            if(a[j] > a[i]) 
-            {
-               
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
-            }
-        }
+/*See stats.h for doumentation*/
+unsigned char print_array(unsigned char * arrPtr, int length){
+#ifndef VERBOSE
+    return 0;
+#endif
+  int index = 0;
+  PRINTF("[");
+  while(1){
+    printf("%hhu", arrPtr[index]);
+    if(index == length - 1){
+      PRINTF("]\n");
+      return 0;
+    }else{
+      PRINTF(", ");
     }
-
-
-
+    index = index + 1;
+  }
+  return 1; /*it will never occure normally*/
 }
-
-float print_statistics(unsigned char*a , unsigned char b)
-{
-	printf("minimum: %hhu \n maximum: %hhu \n mean: %hhu \n median: %f \n", find_minimum(a,b), find_maximum(a, b), find_mean(a, b), find_median(a,b));
-
+/*See stats.h for doumentation*/
+unsigned char find_median(unsigned char * arrPtr, int length){
+  if(isArraySorted == FALSE){
+	sort_array(arrPtr, length);
+  }
+  if(length%2==0) {
+    return((arrPtr[length/2] + arrPtr[length/2 - 1]) / 2);
+  } else {
+    return arrPtr[length/2];
+  }	
+}
+/*See stats.h for doumentation*/
+unsigned char find_mean(unsigned char * arrPtr, int length){
+  unsigned char mean;
+  int index = 0;
+  int arraySum = 0;
+  while(1){
+    if(index == length){
+      break;
+    }
+    arraySum = arraySum + (int)arrPtr[index];
+	index = index+1;
+  }
+  mean = arraySum / length;
+  return mean;	
+}
+/*See stats.h for doumentation*/
+unsigned char find_maximum(unsigned char * arrPtr, int length){
+  unsigned char result = 0;
+  int index = 0;
+  while(1) {
+    if(index == length){
+      break;
+    }
+    if(result < arrPtr[index]){
+      result = arrPtr[index];
+    }
+    index = index + 1;
+  }
+  return result;	
+}
+/*See stats.h for doumentation*/
+unsigned char find_minimum(unsigned char * arrPtr, int length){
+  unsigned char result = UCHAR_MAX;
+  int index = 0;
+  while(1) {
+    if(index == length){
+      break;
+    }
+    if(result > arrPtr[index]){
+      result = arrPtr[index];
+    }
+    index = index + 1;
+  }
+  return result;	
+}
+/*See stats.h for doumentation*/
+unsigned char sort_array(unsigned char * arrPtr, int length) {
+	int outerLoopIndex = 0;
+  while(1){
+    if(outerLoopIndex == length - 1){
+      isArraySorted = TRUE;
+      return 0;
+    }
+    int f = 0;
+    int min = outerLoopIndex;
+    int innerLoopIndex = outerLoopIndex;
+    while(1){
+      if(innerLoopIndex == length - outerLoopIndex){
+	break;
+      }
+      if(arrPtr[innerLoopIndex] < arrPtr[innerLoopIndex+1]){
+	unsigned char swapA = arrPtr[innerLoopIndex];
+	unsigned char swapB = arrPtr[innerLoopIndex + 1];
+	arrPtr[innerLoopIndex] = swapB;
+	arrPtr[innerLoopIndex + 1] = swapA;
+	f = 1;
+      }
+      if(arrPtr[innerLoopIndex] > arrPtr[min]){
+	min = innerLoopIndex;
+      }
+      innerLoopIndex += 1;
+    }
+    if(f == 0){
+      isArraySorted = TRUE;
+      return 0;
+    }
+    if(min < outerLoopIndex || min > outerLoopIndex){
+      unsigned char swapA = arrPtr[outerLoopIndex];
+      unsigned char swapB = arrPtr[min];
+      arrPtr[outerLoopIndex] = swapB;
+      arrPtr[min] = swapA;
+    }
+    outerLoopIndex += 1;
+  }
+    
+  return 1;
 }

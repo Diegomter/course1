@@ -15,7 +15,7 @@
  * This file contains the main code for the Final assesment
  *
  * @author Diego Gomez Canales
- * @date May 23 2020
+ * @date May 24 2020
  *
  */
  //#include <stdio.h>

@@ -28,7 +28,9 @@
 #------------------------------------------------------------------------------
 include sources.mk
 # Platform Overrides
-PLATFORM = COURSE1
+PLATFORM = HOST
+VERBOSE = DISABLE
+COURSE = COURSE1
 # General flags for both platforms
 GEN_FLAGS = \
 	    -Wall \
@@ -36,7 +38,17 @@ GEN_FLAGS = \
 	    -g \
 	    -O0 \
 	    -std=c99
+
 TARGET = c1FA
+
+ifeq ($(VERBOSE), ENABLE)
+	CPPFLAGS += -DVERBOSE
+endif
+
+ifeq ($(COURSE), COURSE1)
+	CPPFLAGS += -DCOURSE1
+endif
+
 ifeq ($(PLATFORM), MSP432)
 	# Architectures Specific Flags
 	LINKER_FILE = -T msp432p401r.lds 
@@ -68,10 +80,12 @@ else
 	# Complier Flags and Defines
 	CC = gcc
 	CFLAGS = $(GEN_FLAGS)
-	CPPFLAGS = -DCOURSE1 $(INCLUDES)
+	CPPFLAGS = -DHOST $(INCLUDES)
 	LDFLAGS = -Wl,-Map=$(TARGET).map
 	SIZE = size
+
 endif
+
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 ASMS = $(SRCS:.c=.asm)
@@ -84,13 +98,17 @@ PREP = $(SRCS:.c=.i)
 	$(CC) -E $< $(CPPFLAGS) -o $@
 %.d: %.c
 	$(CC) -E -M $< $(CPPFLAGS) -o $@
+
 .PHONY: compile-all
 compile-all: $(OBJS)
+
 .PHONY: Build
 build: $(TARGET).out
+
 $(TARGET).out: $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@
 	$(SIZE) $@
+	
 .PHONY: Clean
 clean:
 	rm -f $(OBJS) $(DEPS) $(ASMS) $(PREP) $(TARGET).out $(TARGET).map 
