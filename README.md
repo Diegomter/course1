@@ -1,5 +1,8 @@
 # course1 final exam
 Course 1 Final assessment of Intro to Embedded_Sys_Software&amp;Development_Environments
+@author Diego Gomez Canales
+@date May 24 2020
+@github: https://github.com/Diegomter/course1.git
 
 Description:
 
